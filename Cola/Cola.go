@@ -101,7 +101,7 @@ func (c *Cola) LeerCSV(ruta string) {
 		*/
 		carnet, _ := strconv.Atoi(linea[0])
 		nota, _ := strconv.Atoi(linea[3])
-		c.Encolar(carnet, linea[1], linea[2], nota)
+		c.Encolar(carnet, linea[1], "0"+linea[2], nota)
 	}
 }
 

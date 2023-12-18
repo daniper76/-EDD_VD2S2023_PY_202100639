@@ -1,6 +1,9 @@
 package Listas
 
-import "strconv"
+import (
+	"fmt"
+	"strconv"
+)
 
 type ListaDobleCircular struct {
 	Inicio   *NodoListaCircular
@@ -8,7 +11,7 @@ type ListaDobleCircular struct {
 }
 
 func (l *ListaDobleCircular) Agregar(carnet int, nombre string, curso string, nota int) {
-	nuevoTutor := &Tutores{Carnet: carnet, Nombre: nombre}
+	nuevoTutor := &Tutores{Carnet: carnet, Nombre: nombre, Curso: curso, Nota: nota}
 	nuevoNodo := &NodoListaCircular{Tutor: nuevoTutor, Siguiente: nil, Anterior: nil}
 
 	if l.Longitud == 0 {
@@ -81,4 +84,60 @@ func (l *ListaDobleCircular) Reporte() {
 	crearArchivo(nombreArchivo)
 	escribirArchivo(texto, nombreArchivo)
 	ejecutar(nombreImagen, nombreArchivo)
+}
+
+func (l *ListaDobleCircular) Mostrar() {
+	aux := l.Inicio
+	contador := 1
+	for contador <= l.Longitud {
+		fmt.Println(aux.Tutor.Curso, " -> ", aux.Tutor.Nombre)
+		aux = aux.Siguiente
+		contador++
+	}
+}
+
+func (l *ListaDobleCircular) Buscar(curso string) bool {
+	if l.Longitud == 0 {
+		return false
+	} else {
+		aux := l.Inicio
+		contador := 1
+		for l.Longitud >= contador {
+			if aux.Tutor.Curso == curso {
+				return true
+			}
+			aux = aux.Siguiente
+			contador++
+		}
+	}
+	return false
+}
+
+func (l *ListaDobleCircular) BuscarTutor(curso string) *NodoListaCircular {
+	aux := l.Inicio
+	contador := 1
+	for l.Longitud >= contador {
+		if aux.Tutor.Curso == curso {
+			return aux
+		}
+		aux = aux.Siguiente
+		contador++
+	}
+	return nil
+}
+
+func (l *ListaDobleCircular) CambiarTutor(curso string, carnet int, nota int, nombre string) {
+	aux := l.Inicio
+	contador := 1
+	for l.Longitud >= contador {
+		if aux.Tutor.Curso == curso {
+			aux.Tutor.Nombre = nombre
+			aux.Tutor.Carnet = carnet
+			aux.Tutor.Nota = nota
+			return
+		}
+		aux = aux.Siguiente
+		contador++
+	}
+	return
 }

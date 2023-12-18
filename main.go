@@ -1,14 +1,20 @@
 package main
 
 import (
+	"ProyectoFase1/ArbolAVL"
 	"ProyectoFase1/Cola"
 	"ProyectoFase1/Listas"
+	"ProyectoFase1/MatrizDispersa"
 	"fmt"
+	"strconv"
 )
 
 var colaPrioridad *Cola.Cola = &Cola.Cola{Primero: nil, Longitud: 0}
 var listaDoble *Listas.ListaDoble = &Listas.ListaDoble{Inicio: nil, Longitud: 0}
 var listaDobleCircular *Listas.ListaDobleCircular = &Listas.ListaDobleCircular{Inicio: nil, Longitud: 0}
+var matrizDispersa *MatrizDispersa.Matriz = &MatrizDispersa.Matriz{Raiz: &MatrizDispersa.NodoMatriz{PosX: -1, PosY: -1, Dato: &MatrizDispersa.Dato{Carnet_Tutor: 0, Carnet_Estudiante: 0, Curso: "RAIZ"}}, Cantidad_Alumnos: 0, Cantidad_Tutores: 0}
+var arbolCursos *ArbolAVL.ArbolAVL = &ArbolAVL.ArbolAVL{Raiz: nil}
+var loggeado_estudiante string = ""
 
 func main() {
 	opcion := 0
@@ -41,6 +47,7 @@ func MenuLogin() {
 		MenuAdmin()
 	} else if listaDoble.Buscar(usuario, password) {
 		fmt.Println("--------Bienvenido alumno ", usuario, "-----------")
+		loggeado_estudiante = usuario
 		MenuAlumno()
 	} else {
 		fmt.Println("¡ERROR EN CREDENCIALES!")
@@ -64,12 +71,14 @@ func MenuAdmin() {
 		case 2:
 			CargaEstudiantes()
 		case 3:
-			fmt.Println("Se cargo los cursos")
+			CargarCursos()
 		case 4:
 			ControlEstudiantes()
 		case 5:
 			listaDoble.Reporte()
 			listaDobleCircular.Reporte()
+			matrizDispersa.Reporte()
+			arbolCursos.Graficar()
 		case 6:
 			bandera = false
 		}
@@ -87,9 +96,9 @@ func MenuAlumno() {
 		fmt.Scanln(&opcion)
 		switch opcion {
 		case 1:
-			CargaTutores()
+			listaDobleCircular.Mostrar()
 		case 2:
-			CargaEstudiantes()
+			AsignarCurso()
 		case 3:
 			bandera = false
 		}
@@ -113,6 +122,14 @@ func CargaEstudiantes() {
 	fmt.Println("Se cargo los estudiantes")
 }
 
+func CargarCursos() {
+	ruta := ""
+	fmt.Print("Nombre de Archivo: ")
+	fmt.Scanln(&ruta)
+	arbolCursos.LeerJson(ruta)
+	fmt.Println("Se cargo los cursos")
+}
+
 func ControlEstudiantes() {
 	opcion := 0
 	salir := false
@@ -126,8 +143,20 @@ func ControlEstudiantes() {
 		fmt.Println("3. Salir")
 		fmt.Scanln(&opcion)
 		if opcion == 1 {
-			listaDobleCircular.Agregar(colaPrioridad.Primero.Tutor.Carnet, colaPrioridad.Primero.Tutor.Nombre, colaPrioridad.Primero.Tutor.Curso, colaPrioridad.Primero.Tutor.Nota)
-			colaPrioridad.Descolar()
+			existe_tutor := listaDobleCircular.BuscarTutor(colaPrioridad.Primero.Tutor.Curso)
+			if existe_tutor != nil {
+				if existe_tutor.Tutor.Nota < colaPrioridad.Primero.Tutor.Nota {
+					listaDobleCircular.CambiarTutor(colaPrioridad.Primero.Tutor.Curso, colaPrioridad.Primero.Tutor.Carnet, colaPrioridad.Primero.Tutor.Nota, colaPrioridad.Primero.Tutor.Nombre)
+					colaPrioridad.Descolar()
+					fmt.Println("Se sustituyó tutor de curso actual")
+				} else {
+					fmt.Println("Tutor actual tiene mejor nota")
+					colaPrioridad.Descolar()
+				}
+			} else {
+				listaDobleCircular.Agregar(colaPrioridad.Primero.Tutor.Carnet, colaPrioridad.Primero.Tutor.Nombre, colaPrioridad.Primero.Tutor.Curso, colaPrioridad.Primero.Tutor.Nota)
+				colaPrioridad.Descolar()
+			}
 		} else if opcion == 2 {
 			colaPrioridad.Descolar()
 		} else if opcion == 3 {
@@ -135,5 +164,34 @@ func ControlEstudiantes() {
 		} else {
 			fmt.Println("Opcion invalida")
 		}
+	}
+}
+
+func AsignarCurso() {
+	opcion := ""
+	salir := false
+	for !salir {
+		fmt.Println("Teclee el codigo del curso: ")
+		fmt.Scanln(&opcion)
+		//Iria el primer If del Arbol (pendiente)
+		if arbolCursos.Busqueda(opcion) {
+			if listaDobleCircular.Buscar(opcion) {
+				TutorBuscado := listaDobleCircular.BuscarTutor(opcion)
+				estudiante, err := strconv.Atoi(loggeado_estudiante)
+				if err != nil {
+					break
+				}
+				matrizDispersa.Insertar_Elemento(estudiante, TutorBuscado.Tutor.Carnet, opcion)
+				fmt.Println("Se asigno Correctamente....")
+				break
+			} else {
+				fmt.Println("No hay tutores para ese curso....")
+				break
+			}
+		} else {
+			fmt.Println("El curso no existe en el sistema")
+			break
+		}
+
 	}
 }
