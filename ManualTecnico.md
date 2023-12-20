@@ -1,9 +1,88 @@
-## Features
+# Manual Técnico
 
-- Support Standard Markdown / CommonMark and GFM(GitHub Flavored Markdown);
-- Full-featured: Real-time Preview, Image (cross-domain) upload, Preformatted text/Code blocks/Tables insert, Code fold, Search replace, Read only, Themes, Multi-languages, L18n, HTML entities, Code syntax highlighting...;
-- Markdown Extras : Support ToC (Table of Contents), Emoji, Task lists, @Links...;
-- Compatible with all major browsers (IE8+), compatible Zepto.js and iPad;
-- Support identification, interpretation, fliter of the HTML tags;
-- Support TeX (LaTeX expressions, Based on KaTeX), Flowchart and Sequence Diagram of Markdown extended syntax;
-- Support AMD/CMD (Require.js & Sea.js) Module Loader, and Custom/define editor plugins;
+<p>
+Para la realización de este proyecto se llevaron a cabo el uso de diferentes Struct, a las cuales fueron asociadas diferentes métodos.
+<p>
+
+### Matriz struct
+<p>
+Esta struct fue utilizada para definir la matriz dispersa, la cual fue utilizada para guaradar las asignaciones de los estudiantes a los diferentes cursos. A este fue asociado diferentes métodos los cuales se detallan a continuación.
+
+- Insertar_Elemento: Este método recibe como parámetros el carnet del tutor, el carnet del estudiante y el codigo del curso. Fue utilizada para crear nuevos nodos los cuales relacionan al estudiante con el tutor que imparte el curso. Debido a que los tutores se almacenan en las cabeceras y los alumnos asignados en las filas, durante la ejecución del método se van haciendo diferentes validaciones para saber si el alumno asinado ya se encuentra en las filas o si el tutor del curso ya se encuentra en la cabecera y dependiendo del caso que ocurra se iran crando nuevos nodos en la cabecera o en las filas de ser necesario para realizar las conecciones del nuevo nodo.
+
+- nuevaFila: Este método recibe como parámetro la posición y, el carnet del estudiante y el curso al cual se desea asignar. Se utiliza este método para crear un nuevo nodo en las filas el cual representara al estudiante asignado y devuelve dicho nodo creado en las filas.
+
+- insertarFila: Este método recibe como parámetro nuevoNodo *NodoMatriz que es el nodo que se desea conectar y nodoRaiz *NodoMatriz que puede ser la raiz de la matriz donde inicia todo o puede ser un nodo de la cabecera. Este método se utiliza para hacer las conecciones del nuevo nodos con su respectivo nodo de la cabecera.
+
+- nuevaColumna: Este método recibe como parámetro la posición x, el carnet del tutor y el curso el cual imparte. Se utiliza este método para crear un nuevo nodo en la cabecera el cual representara al tutor del curso y devuelve dicho nodo creado en la cabecera.
+
+- insertarColumna: Este método recibe como parámetro nuevoNodo *NodoMatriz que es el nodo que se desea conectar y nodoRaiz *NodoMatriz que puede ser la raiz de la matriz donde inicia todo o puede ser un nodo de las filas. Este método se utiliza para hacer las conecciones del nodo con su respectivo nodo de la fila.
+
+- buscarFila: Este método recib como parámetro el carnet del estudiante y usando dicho carnet revisa en las filas si existe un nodo con dicho carnet. Si existe devulve ese nodo de la fila sino devulve nil.
+
+- buscarColumna: Este métdo recibe como parámetro el carnet del tutor y el curso, usando estos parametros realiza una busqueda en los nodos de la cabecera para ver si algun nodo tiene valores iguales y sí existe devuelve un nodo de la cabecera, de lo contrario devuleve nil. 
+
+- Reporte: Este método se utilizo para realizar un reporte en graphviz, donde se pueda visualizar en los nodos de la cabecera el carnet de cada tutor de determinado curso y en los nodos de la fila el carnet de los alumnos que se asignan a determinado curso. Estos nodos de cabercera y los de fila estaran conectados a un nodo que muestra el código del curso al cual el estudiante se asigna y el cual es impartido por el tutor correspondiente.
+<p>
+<p align="center">
+  <img src="https://i.postimg.cc/8cwRpFD3/Captura-de-pantalla-2023-12-19-110008.png" alt="Descripción de la imagen">
+</p>
+
+## NodoMatriz struct
+
+<p>
+Este struct se utilizo para definir los atributos que tienen los nodos de la matriz, siendo estos los siguientes.
+
+- Siguiente *NodoMatriz 
+- Anterior  *NodoMatriz
+- Abajo     *NodoMatriz
+- Arriba    *NodoMatriz
+- PosX      int
+- PosY      int
+- Dato      *Dato
+<p>
+
+## Dato struct
+
+<p>
+Este struct se utilizo para definir atributos que hacen referencia a los datos que guarda cada nodo de la matriz dispersa. Siendo estos datos el carnet del estudiante que se va a asignar, el carnet del tutor que impartira el curso y el código del curso.
+<p>
+
+## Lista Doble
+
+<p>
+Este struct se utilizo para definir la lista doble que contendra los estudiantes cargados al sistema. A este struct se asociaron diferentes métodos los cuales se detallan a continuación:
+
+- Agregar: Este método recibe como parámetro el nombre y el carnet del estudiante, usando estos datos se crea un nuevo nodo el cual se ingresa en la lista doble.
+- Buscar: Este método recibe como parámetro el carnet del estudiante y su contraseña siendo esta el mismo que su carnet. Utilizando estos datos realiza una busqueda dentro de la lista doble para encontrar algun nodo que contenga un carnet igual al que se envia en el parámetro.
+- LeerCSV: Este método se utiliza para leer un archivo csv el cual contiene los datos de carnet y nombre de los estudiantes que se desean cargar al sistema y aquí mismo se llama al método Agregar para ingresar todos los datos en la lista doble.
+- Reporte: Este método se utiliza para crear un reporte usando graphviz en donde se muestre la lista doble y cada uno de sus nodos muestren el nombre y carnet de cada estudiante guardado en el sistema.
+<p>
+<p align="center">
+  <img src="https://i.postimg.cc/13wTXLr0/Captura-de-pantalla-2023-12-19-130035.png" alt="Descripción de la imagen">
+</p>
+
+## NodoListaDoble struct
+
+<p>
+Este struct se utilizo para definir los atributos de los nodos de la lista doble, siendo estos los siguientes:
+
+- Alumno    *Alumno
+- Siguiente *NodoListaDoble
+- Anterior  *NodoListaDoble
+<p>
+
+## Alumno struct
+
+<p>
+Este struct se utilizo para definir atributos que hacen referencia a los datos que guarda cada nodo de la lista doble. Siendo estos datos el carnet y el nombre del estudiante.
+<p>
+
+## Cola struct
+
+<p>
+Este struct se utilizo para definir una cola de prioridad la cual contendra a los posibles tutores para cada curso. A este struct se asociaron diferents métodos los cuales se detallan a continaución:
+
+- Encolar: Este método recibe como parámetro el nombre del tutor, el carnet del tutor, el curso que va a impartir y la nota. Utilizando estos datos se crea un nodo al cual se le asigna una prioridad dependiendo de la nota que tenga el tutor, dependiendo de la prioridad que tenga cada nodo se irna agregando a la cola de prioridad.
+<p>
+
