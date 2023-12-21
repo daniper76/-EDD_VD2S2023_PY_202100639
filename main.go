@@ -173,7 +173,7 @@ func AsignarCurso() {
 	for !salir {
 		fmt.Println("Teclee el codigo del curso: ")
 		fmt.Scanln(&opcion)
-		//Iria el primer If del Arbol (pendiente)
+
 		if arbolCursos.Busqueda(opcion) {
 			if listaDobleCircular.Buscar(opcion) {
 				TutorBuscado := listaDobleCircular.BuscarTutor(opcion)

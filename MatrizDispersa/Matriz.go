@@ -106,32 +106,6 @@ func (m *Matriz) nuevaFila(y int, carnet_estudiante int, curso string) *NodoMatr
 	return fila
 }
 
-/*
-primer caso
-	logeado -> 2017..... -> 0770 -> 2001
-	Codigo de Curso a asignar: 0770
-	Agregar al tutor y al alumno. Finalizo flujo
-
-	logeado -> 2018..... -> 0771 -> 2002
-	Codigo de Curso a asignar: 0771
-	Agregar al tutor y al alumno. Finaliza flujo
-
-Segundo Caso
-	logeado -> 2019..... ->0770 -> 2001
-	Codigo de Curso a asignar: 0770
-	Agrega al estudiante}
-
-Tercer Caso
-	logeado -> 2017..... -> 0980 -> 2005
-	Codigo de Curso a asignar: 0980
-	Agregar al tutor. Finalizo flujo
-
-Cuarto Caso
-	logeado -> 2017..... -> 0771 -> 2002
-	Codigo de Curso a asignar: 0771
-	Finalizo flujo
-*/
-
 func (m *Matriz) Insertar_Elemento(carnet_estudiante int, carnet_tutor int, curso string) {
 	nodoColumna := m.buscarColumna(carnet_tutor, curso)
 	nodoFila := m.buscarFila(carnet_estudiante)
@@ -174,7 +148,7 @@ func (m *Matriz) Reporte() {
 	aux3 := m.Raiz
 	if aux1 != nil {
 		texto = "digraph MatrizCapa{ \n node[shape=box] \n rankdir=UD; \n {rank=min; \n"
-		/** Creacion de los nodos actuales */
+
 		for aux1 != nil {
 			texto += "nodo" + strconv.Itoa(aux1.PosX+1) + strconv.Itoa(aux1.PosY+1) + "[label=\"" + strconv.Itoa(aux1.Dato.Carnet_Tutor) + "\" ,rankdir=LR,group=" + strconv.Itoa(aux1.PosX+1) + "]; \n"
 			aux1 = aux1.Siguiente
@@ -198,7 +172,7 @@ func (m *Matriz) Reporte() {
 			texto += "}"
 			aux2 = aux2.Abajo
 		}
-		/** Conexiones entre los nodos de la matriz */
+
 		aux2 = aux3
 		for aux2 != nil {
 			aux1 = aux2
@@ -221,7 +195,7 @@ func (m *Matriz) Reporte() {
 	} else {
 		texto = "No hay elementos en la matriz"
 	}
-	//fmt.Println(texto)
+
 	GenerarArchivos.CrearArchivo(nombre_archivo)
 	GenerarArchivos.EscribirArchivo(texto, nombre_archivo)
 	GenerarArchivos.Ejecutar(nombre_imagen, nombre_archivo)
