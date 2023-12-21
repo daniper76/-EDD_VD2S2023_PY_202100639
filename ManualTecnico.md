@@ -151,6 +151,7 @@ Este struct se utilizo para definir los atributos que tienen los nodos de la col
 <p align="center">
   <img src="https://i.postimg.cc/439d7pSY/Captura-de-pantalla-2023-12-20-174847.png" alt="Descripción de la imagen">
 </p>
+
 ### nodoArbol
 Este struct se utilizo para definir los atributos que tienen los nodos del arbol AVL, siendo estos los siguientes:
 
