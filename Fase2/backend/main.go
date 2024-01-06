@@ -44,8 +44,9 @@ func main() {
 	app.Get("/obtener-publi-alumno", ObetnerPublicacionessAlumno)
 	app.Get("/finalizar-libros", FinalizarLibros)
 
-	/*EJEMPLO DE REPORTE MANDAR A LLAMAR LOS DEMAS, FUNCIONES YA HECHAS*/
+	app.Get("/reporte-grafo", ReporteGrafo)
 	app.Get("/reporte-arbol", ReporteArbolB)
+	app.Get("/reporte-merkle", ReporteMerkle)
 	app.Listen(":4000")
 }
 
@@ -74,7 +75,7 @@ func Validar(c *fiber.Ctx) error {
 				}
 			}
 		} else {
-			//buscar en tabla hash
+
 			if tablaAlumnos.Buscar(usuario.UserName, SHA256(usuario.Password)) {
 				return c.JSON(&fiber.Map{
 					"status":  200,
@@ -95,7 +96,7 @@ func RegistrarAlumno(c *fiber.Ctx) error {
 	var alumno Peticiones.PeticionRegistroAlumno
 	c.BodyParser(&alumno)
 	fmt.Println(alumno)
-	tablaAlumnos.Insertar(alumno.Carnet, alumno.Nombre, SHA256(alumno.Password), alumno.Cursos) //alumno.Cursos
+	tablaAlumnos.Insertar(alumno.Carnet, alumno.Nombre, SHA256(alumno.Password), alumno.Cursos)
 	return c.JSON(&fiber.Map{
 		"status":  200,
 		"Arreglo": tablaAlumnos.ConvertirArreglo(),
@@ -139,7 +140,6 @@ func RegistrarCursos(c *fiber.Ctx) error {
 			grafoCursos.InsertarValores("ECYS", curso.Codigo)
 		}
 	}
-	grafoCursos.Reporte("Grafo")
 	return c.JSON(&fiber.Map{
 		"status": 200,
 	})
@@ -155,7 +155,6 @@ func GuardarLibro(c *fiber.Ctx) error {
 	})
 }
 
-/****************NUEVO*/
 func ObtenerLibrosAdmin(c *fiber.Ctx) error {
 	listatemp := &arbolB.ListaSimple{Inicio: nil, Longitud: 0}
 	var libros []arbolB.Libro
@@ -224,14 +223,14 @@ func CursosAlumnos(c *fiber.Ctx) error {
 func ReporteArbolB(c *fiber.Ctx) error {
 	var imagen Peticiones.RespuestaImagen = Peticiones.RespuestaImagen{Nombre: "Reporte/ArbolB.jpg"}
 	arbolTutor.Graficar("ArbolB")
-	/*INICIO*/
+
 	imageBytes, err := os.ReadFile(imagen.Nombre)
 	if err != nil {
 		return c.JSON(&fiber.Map{
 			"status": 404,
 		})
 	}
-	// Codifica los bytes de la imagen en base64
+
 	imagen.Imagenbase64 = "data:image/jpg;base64," + base64.StdEncoding.EncodeToString(imageBytes)
 	return c.JSON(&fiber.Map{
 		"status": 200,
@@ -242,14 +241,14 @@ func ReporteArbolB(c *fiber.Ctx) error {
 func ReporteGrafo(c *fiber.Ctx) error {
 	var imagen Peticiones.RespuestaImagen = Peticiones.RespuestaImagen{Nombre: "Reporte/Grafo.jpg"}
 	grafoCursos.Reporte("Grafo")
-	/*INICIO*/
+
 	imageBytes, err := os.ReadFile(imagen.Nombre)
 	if err != nil {
 		return c.JSON(&fiber.Map{
 			"status": 404,
 		})
 	}
-	// Codifica los bytes de la imagen en base64
+
 	imagen.Imagenbase64 = "data:image/jpg;base64," + base64.StdEncoding.EncodeToString(imageBytes)
 	return c.JSON(&fiber.Map{
 		"status": 200,
@@ -260,14 +259,14 @@ func ReporteGrafo(c *fiber.Ctx) error {
 func ReporteMerkle(c *fiber.Ctx) error {
 	var imagen Peticiones.RespuestaImagen = Peticiones.RespuestaImagen{Nombre: "Reporte/arbolMerkle.jpg"}
 	arbolLibros.Graficar()
-	/*INICIO*/
+
 	imageBytes, err := os.ReadFile(imagen.Nombre)
 	if err != nil {
 		return c.JSON(&fiber.Map{
 			"status": 404,
 		})
 	}
-	// Codifica los bytes de la imagen en base64
+
 	imagen.Imagenbase64 = "data:image/jpg;base64," + base64.StdEncoding.EncodeToString(imageBytes)
 	return c.JSON(&fiber.Map{
 		"status": 200,

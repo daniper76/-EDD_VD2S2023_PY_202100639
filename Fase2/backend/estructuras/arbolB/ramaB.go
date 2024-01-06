@@ -7,7 +7,7 @@ type RamaB struct {
 }
 
 func (r *RamaB) Insertar(nuevoNodo *NodoB) {
-	if r.Primero == nil { // 10
+	if r.Primero == nil {
 		r.Primero = nuevoNodo
 		r.Contador++
 	} else {
@@ -26,7 +26,7 @@ func (r *RamaB) Insertar(nuevoNodo *NodoB) {
 				r.Primero.Siguiente.Anterior = nuevoNodo
 				r.Primero.Siguiente = nuevoNodo
 				r.Contador++
-			} else { // 7 | 10 -> 15
+			} else {
 				aux := r.Primero.Siguiente
 				nuevoNodo.Anterior = aux
 				aux.Derecho = nuevoNodo.Izquierdo
@@ -35,7 +35,7 @@ func (r *RamaB) Insertar(nuevoNodo *NodoB) {
 			}
 		} else if r.Primero.Siguiente == nil {
 			nuevoNodo.Anterior = r.Primero
-			r.Primero.Derecho = nuevoNodo.Izquierdo //*********** Hice cambio
+			r.Primero.Derecho = nuevoNodo.Izquierdo
 			r.Primero.Siguiente = nuevoNodo
 			r.Contador++
 		}

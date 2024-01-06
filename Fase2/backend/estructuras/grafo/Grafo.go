@@ -75,10 +75,10 @@ func (g *Grafo) Reporte(nombre string) {
 
 func (g *Grafo) retornarValoresMatriz() string {
 	cadena := ""
-	/*CREACION DE NODOS*/
-	aux := g.Principal.Abajo //Filas
-	aux1 := aux              //Columnas
-	/*CREACION DE NODOS CON LABELS*/
+
+	aux := g.Principal.Abajo
+	aux1 := aux
+
 	for aux != nil {
 		for aux1 != nil {
 			cadena += "nodo" + aux1.Valor + "[label=\"" + aux1.Valor + "\" ]; \n"
@@ -89,10 +89,10 @@ func (g *Grafo) retornarValoresMatriz() string {
 			aux1 = aux
 		}
 	}
-	/*CONEXION DE NODOS*/
-	aux = g.Principal    //Filas
-	aux1 = aux.Siguiente //Columnas
-	/*CREACION DE NODOS CON LABELS*/
+
+	aux = g.Principal
+	aux1 = aux.Siguiente
+
 	for aux != nil {
 		for aux1 != nil {
 			cadena += "nodo" + aux.Valor + " -> "

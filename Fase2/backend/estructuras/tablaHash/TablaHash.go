@@ -68,7 +68,7 @@ func (t *TablaHash) reInsertar(capacidadAnterior int) {
 }
 
 func (t *TablaHash) reCalculoIndice(carnet int, contador int) int {
-	nuevoIndice := t.calculoIndice(carnet) + (contador * contador) //5+4=9
+	nuevoIndice := t.calculoIndice(carnet) + (contador * contador)
 	return t.nuevoIndice(nuevoIndice)
 }
 
@@ -83,7 +83,7 @@ func (t *TablaHash) nuevoIndice(nuevoIndice int) int {
 	return nuevoPosicion
 }
 
-func (t *TablaHash) Insertar(carnet int, nombre string, password string, cursos []string) { // cursos []string
+func (t *TablaHash) Insertar(carnet int, nombre string, password string, cursos []string) {
 	indice := t.calculoIndice(carnet)
 	nuevoNodo := &NodoHash{Llave: indice, Persona: &Persona{Carnet: carnet, Nombre: nombre, Password: password, Cursos: cursos}}
 	if indice < t.Capacidad {

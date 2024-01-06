@@ -17,22 +17,7 @@ function App() {
   const [count, setCount] = useState(0);
 
   return (
-    /*<>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/principal/estudiante" element={<Estudiante />} />
-        <Route path="/principal/tutor" element={<Tutor />} />
-        <Route path="/principal/admin" element={<PrinicipalAdmin />} />
-        <Route path="/principal/admin/alumnos" element={<TablaAlumnos />} />
-        <Route path="/principal/tutor/libro" element={<LibrosAdmin />} />
-
-        <Route path="/principal/admin/cargar-libro" element={<LibrosTutor />} />
-        <Route
-          path="/principal/admin/carga-archivos"
-          element={<Administrador />}
-        />
-      </Routes>
-    </>*/
+    
     <>
       <Routes>
         <Route path="/" element={<Login />} />

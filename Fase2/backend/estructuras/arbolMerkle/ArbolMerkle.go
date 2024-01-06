@@ -19,7 +19,7 @@ type ArbolMerkle struct {
 func fechaActual() string {
 	now := time.Now()
 	formato := "02-01-2006::15:04:05"
-	fechahoraFormato := now.Format(formato) // 27-12-2023::12:02:40
+	fechahoraFormato := now.Format(formato)
 	return fechahoraFormato
 }
 
@@ -48,9 +48,7 @@ func (a *ArbolMerkle) GenerarArbol() {
 	for i := a.CantidadBloques; i < int(math.Pow(2, float64(nivel))); i++ {
 		a.AgregarBloque(strconv.Itoa(i), "nulo", 0)
 	}
-	/*
-		♫ -> ☼ -> ☼ -> ☼ -> ☼ -> nulo -> nulo -> nulo
-	*/
+
 	a.generarHash()
 }
 
@@ -95,7 +93,6 @@ func (a *ArbolMerkle) encriptarSha3(cadena string) string {
 	return encriptacion
 }
 
-/*******************************************/
 func (a *ArbolMerkle) Graficar() {
 	cadena := ""
 	nombre_archivo := "./Reporte/arbolMerkle.dot"

@@ -11,7 +11,7 @@ type ArbolB struct {
 	Orden int
 }
 
-func (a *ArbolB) insertar_rama(nodo *NodoB, rama *RamaB) *NodoB { // 20,
+func (a *ArbolB) insertar_rama(nodo *NodoB, rama *RamaB) *NodoB {
 	if rama.Hoja {
 		rama.Insertar(nodo)
 		if rama.Contador == a.Orden {
@@ -103,7 +103,6 @@ func (a *ArbolB) Insertar(carnet int, nombre string, curso string, password stri
 	}
 }
 
-/***************************************/
 func (a *ArbolB) Graficar(nombre string) {
 	cadena := ""
 	nombre_archivo := "./Reporte/" + nombre + ".dot"
@@ -190,7 +189,6 @@ func (a *ArbolB) conexionRamas(rama *NodoB) string {
 	return dot
 }
 
-/********************/
 func (a *ArbolB) Buscar(numero string, listaSimple *ListaSimple) {
 	valTemp, _ := strconv.Atoi(numero)
 	a.buscarArbol(a.Raiz.Primero, valTemp, listaSimple)
@@ -264,13 +262,6 @@ func (a *ArbolB) GuardarPublicacion(raiz *NodoB, contenido string, carnet int) {
 		}
 	}
 }
-
-/*
-Visitar Tabla hash, si coincide el alumnos, jalan el atributo Cursos
-Buscan en Arbol B, los cursos
-*/
-
-/********* NUEVO */
 
 func (a *ArbolB) VerLibroAdmin(raiz *NodoB, listaSimple *ListaSimple) {
 	if raiz != nil {
